@@ -10,5 +10,14 @@ public class User {
 
     }
 
-    private void
+    private void detalharCartas(int id) {
+    }
+
+    private void ordenarCartas() {
+
+    }
+
+    private Carta buscarCartasPokeAPI(int id) {
+
+    }
 }
