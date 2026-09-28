@@ -1,10 +1,11 @@
 public class Carta(){
 
-    int Id, Experience;
-    String Nome, UrlCry;
-    float Altura, Peso;
+    private int Id, Experience;
+    private String Nome, UrlCry;
+    private float Altura, Peso;
 
     public void getCarta(int Id){
 
+        return null;
     }
 }
