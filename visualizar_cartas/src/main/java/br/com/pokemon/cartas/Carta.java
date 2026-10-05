@@ -5,12 +5,14 @@ public class Carta{
     private int id, experience;
     private String nome, urlCry;
     private float altura, peso;
+    private Habilidade[] habilidade;
+    private Tipo[] tipo;
+    private Sprite[] sprite;
 
     public static Carta getCarta(int Id){
 
         Carta carta = new Carta();
         carta.id = Id;
-        
         return carta;
     }
 
