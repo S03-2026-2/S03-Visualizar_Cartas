@@ -9,7 +9,7 @@ public class Carta{
     public static Carta getCarta(int Id){
 
         Carta carta = new Carta();
-        carta.id = id;
+        carta.id = Id;
         
         return carta;
     }
@@ -21,7 +21,7 @@ public class Carta{
 
     public int getExperience(){
 
-        return this.experience
+        return this.experience;
     }
 
     public String getNome(){
