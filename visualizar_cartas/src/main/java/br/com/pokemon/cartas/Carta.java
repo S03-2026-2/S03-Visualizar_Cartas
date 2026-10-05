@@ -5,9 +5,9 @@ public class Carta{
     private int id, experience;
     private String nome, urlCry;
     private float altura, peso;
-    private Habilidade[] habilidade;
-    private Tipo[] tipo;
-    private Sprite[] sprite;
+    private Habilidade[] habilidades;
+    private Tipo[] tipos;
+    private Sprite[] sprites;
 
     public static Carta getCarta(int Id){
 
@@ -44,5 +44,17 @@ public class Carta{
     public float getPeso(){
 
         return this.peso;
+    }
+    public Habilidade[] getHabilidade(){
+
+        return this.habilidades;
+    }
+    public Tipo[] getTipo(){
+
+        return this.tipos;
+    }
+    public Sprite[] getSprite(){
+
+        return this.sprites;
     }
 }
