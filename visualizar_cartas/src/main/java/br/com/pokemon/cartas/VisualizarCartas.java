@@ -16,7 +16,7 @@ public class VisualizarCartas {
         }
     }
 
-    private static void detalharCartas(Carta cartaADetalhar) {
+    private static void detalharCartas(int id) {
 
         // Lógica para mostrar uma carta detalhada
         // usando o framework vaadin
@@ -25,6 +25,8 @@ public class VisualizarCartas {
 
     private static void ordenarCartas(List<Carta> cartasUsuario) {
         cartasUsuario.sort(Comparator.comparing(Carta::getNome));
+
+        listarCartas(cartasUsuario);
     }
 
     private static Carta buscarCartasPokeAPI(int id) {
