@@ -1,4 +1,4 @@
-package br.com.pokemon.visualizarcarta;
+package br.com.pokemon.cartas;
 
 public class Habilidade {
 

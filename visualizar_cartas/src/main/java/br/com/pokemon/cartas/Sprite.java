@@ -1,3 +1,5 @@
+package br.com.pokemon.cartas;
+
 public class Sprite {
 
     private String nome;
