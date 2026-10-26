@@ -12,49 +12,14 @@ public class Carta{
     public static Carta getCarta(int Id){
 
         Carta carta = new Carta();
-        carta.id = Id;
+        carta.id = this.id
+        carta.nome = this.nome;
+        carta.urlCry = this.urlCry;
+        carta.altura = this.altura;
+        carta.peso = this.peso;
+        carta.habilidades = this.habilidades;
+        carta.tipos = this.tipos;
+        carta.sprites = this.sprites;
         return carta;
-    }
-
-    public int getId(){
-
-        return this.id;
-    }
-
-    public int getExperience(){
-
-        return this.experience;
-    }
-
-    public String getNome(){
-
-        return this.nome;
-    }
-
-    public String getUrlCry(){
-
-        return this.urlCry;
-    }    
-
-    public float getAltura(){
-
-        return this.altura;
-    }
-
-    public float getPeso(){
-
-        return this.peso;
-    }
-    public Habilidade[] getHabilidade(){
-
-        return this.habilidades;
-    }
-    public Tipo[] getTipo(){
-
-        return this.tipos;
-    }
-    public Sprite[] getSprite(){
-
-        return this.sprites;
     }
 }
