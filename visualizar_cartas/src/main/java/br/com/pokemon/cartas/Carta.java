@@ -9,17 +9,23 @@ public class Carta{
     private Tipo[] tipos;
     private Sprite[] sprites;
 
-    public static Carta getCarta(int Id){
+    public Carta(int id, int experience, String nome, String urlCry, float altura, float peso, Habilidade[] habilidades, Tipo[] tipos, Sprite[] sprites) {
+        this.id = id;
+        this.experience = experience;
+        this.nome = nome;
+        this.urlCry = urlCry;
+        this.altura = altura;
+        this.peso = peso;
+        this.habilidades = habilidades;
+        this.tipos = tipos;
+        this.sprites = sprites;
+    }
 
-        Carta carta = new Carta();
-        carta.id = this.id
-        carta.nome = this.nome;
-        carta.urlCry = this.urlCry;
-        carta.altura = this.altura;
-        carta.peso = this.peso;
-        carta.habilidades = this.habilidades;
-        carta.tipos = this.tipos;
-        carta.sprites = this.sprites;
-        return carta;
+    public int getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
     }
 }
