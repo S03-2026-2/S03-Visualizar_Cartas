@@ -28,8 +28,4 @@ public class VisualizarCartas {
 
         listarCartas(cartasUsuario);
     }
-
-    private static Carta buscarCartasPokeAPI(int id) {
-        return null;
-    }
 }
