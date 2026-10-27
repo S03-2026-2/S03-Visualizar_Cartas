@@ -1,6 +1,5 @@
 package br.com.pokemon.cartas;
 
-
 public class Habilidade {
 
     private int id;
@@ -13,9 +12,15 @@ public class Habilidade {
         this.geracao = geracao;
     }
 
-    public Habilidade getHabilidade(int id){
-        Habilidade habilidade = new Habilidade(this.id, this.nome, this.geracao);
-        return habilidade;
+    public int getId() {
+        return id;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public String getGeracao() {
+        return geracao;
+    }
 }

@@ -1,19 +1,22 @@
-package br.com.pokemon.cartas;
+package br.com.pokemon.adapters;
+
+import br.com.pokemon.cartas.Carta;
+import br.com.pokemon.cartas.Habilidade;
+import br.com.pokemon.cartas.Sprite;
+import br.com.pokemon.cartas.Tipo;
+import br.com.pokemon.interfaces.Provider;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import org.json.JSONObject;
+import java.util.List;
 
-public class PokeAPIAdapter implements Provider{
+public class PokeAPIAdapter implements Provider {
 
-    public static get(int Id){
-
-        cartas.id = id;
-        tipos.id = id;
-        sprites.id = sprites;
-
+    public static Carta getPokemon(int id) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://pokeapi.co/api/v2/pokemon/" + id))
@@ -23,29 +26,32 @@ public class PokeAPIAdapter implements Provider{
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() != 200) {
-            throw new IOException("Erro ao buscar habilidade " + id + ": HTTP " + response.statusCode());
+            throw new IOException("Erro ao buscar pokemon " + id + ": HTTP " + response.statusCode());
         }
 
         JSONObject json = new JSONObject(response.body());
 
-        Carta carta = new Carta();
-        carta.id = json.getInt("id");
-        carta.nome = json.getString("name");
-        carta.altura = (float) json.getDouble("height");
-        carta.peso = (float) json.getDouble("weight");
+        List<Tipo> tipos = Tipo.getTipos(json);
+        List<Sprite> sprites = Sprite.getSprites(json);
 
-        return carta;
+        // Nota: Habilidades, experience, cry podem ser extraídos conforme necessário
+        return new Carta(
+                json.getInt("id"),
+                json.optInt("base_experience", 0),
+                json.getString("name"),
+                json.optString("cries", json.optJSONObject("cries") != null ? 
+                        json.getJSONObject("cries").optString("latest", "") : ""),
+                (float) json.getDouble("height"),
+                (float) json.getDouble("weight"),
+                new Habilidade[0],
+                tipos.toArray(new Tipo[0]),
+                sprites.toArray(new Sprite[0])
+        );
+    }
 
-        Habilidade habilidade = new Habilidade();
-        habilidade.id = json.getInt("id");
-        habilidade.nome = json.getString("name");
-        habilidade.geracao = json.getJSONObject("generation").getString("name");
-
-        return habilidade;
-
-        Sprite sprite = new Sprite();
-        sprite.id = json.getInt("id");
-        sprite.url = json.getString("url");
+    @Override
+    public void get() {
+        // Implementação conforme interface Provider
     }
 }
 

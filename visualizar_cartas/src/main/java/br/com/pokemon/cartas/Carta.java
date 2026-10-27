@@ -1,10 +1,13 @@
 package br.com.pokemon.cartas;
 
-public class Carta{
+public class Carta {
 
-    private int id, experience;
-    private String nome, urlCry;
-    private float altura, peso;
+    private int id;
+    private int experience;
+    private String nome;
+    private String urlCry;
+    private float altura;
+    private float peso;
     private Habilidade[] habilidades;
     private Tipo[] tipos;
     private Sprite[] sprites;
@@ -25,7 +28,35 @@ public class Carta{
         return id;
     }
 
+    public int getExperience() {
+        return experience;
+    }
+
     public String getNome() {
         return nome;
+    }
+
+    public String getUrlCry() {
+        return urlCry;
+    }
+
+    public float getAltura() {
+        return altura;
+    }
+
+    public float getPeso() {
+        return peso;
+    }
+
+    public Habilidade[] getHabilidades() {
+        return habilidades;
+    }
+
+    public Tipo[] getTipos() {
+        return tipos;
+    }
+
+    public Sprite[] getSprites() {
+        return sprites;
     }
 }
