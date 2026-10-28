@@ -24,6 +24,9 @@ public class Carta {
         this.sprites = sprites;
     }
 
+    public Carta() {
+    }
+
     public int getId() {
         return id;
     }
@@ -58,5 +61,9 @@ public class Carta {
 
     public Sprite[] getSprites() {
         return sprites;
+    }
+
+    public Carta getCarta() {
+        return this;
     }
 }
