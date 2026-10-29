@@ -1,5 +1,7 @@
 package br.com.pokemon.cartas;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Habilidade {
 
     private int id;
@@ -39,6 +41,7 @@ public class Habilidade {
         this.geracao = geracao;
     }
 
+    @JsonIgnore
     public Habilidade getHabilidade() {
         return this;
     }

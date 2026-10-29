@@ -7,6 +7,7 @@ import br.com.pokemon.cartas.Tipo;
 import br.com.pokemon.interfaces.Provider;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URI;
@@ -18,12 +19,14 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PokeAPIAdapter implements Provider {
+@Component
+public class PokeAPIAdapter implements Provider<Carta, String> {
 
     private static final HttpClient client = HttpClient.newHttpClient();
     private static final Pattern URL_PATTERN = Pattern.compile(".*/(\\d+)/?");
 
-    public static Carta getPokemon(String nome) throws IOException, InterruptedException {
+    @Override
+    public Carta get(String nome) throws IOException, InterruptedException {
         JSONObject json = buscarJson("https://pokeapi.co/api/v2/pokemon/" + nome);
 
         Tipo[] tipos = buscarTipos(json);
@@ -51,7 +54,7 @@ public class PokeAPIAdapter implements Provider {
         );
     }
 
-    private static Tipo[] buscarTipos(JSONObject pokemonJson) throws IOException, InterruptedException {
+    private Tipo[] buscarTipos(JSONObject pokemonJson) throws IOException, InterruptedException {
         if (!pokemonJson.has("types")) {
             return new Tipo[0];
         }
@@ -83,7 +86,7 @@ public class PokeAPIAdapter implements Provider {
         return tipos.toArray(new Tipo[0]);
     }
 
-    private static Sprite[] buscarSprites(JSONObject pokemonJson) {
+    private Sprite[] buscarSprites(JSONObject pokemonJson) {
         if (!pokemonJson.has("sprites")) {
             return new Sprite[0];
         }
@@ -93,7 +96,7 @@ public class PokeAPIAdapter implements Provider {
         return sprites.toArray(new Sprite[0]);
     }
 
-    private static void extrairSprites(JSONObject objeto, String prefixo, List<Sprite> sprites) {
+    private void extrairSprites(JSONObject objeto, String prefixo, List<Sprite> sprites) {
         for (String chave : new java.util.TreeSet<>(objeto.keySet())) {
             Object valor = objeto.get(chave);
             String nome = prefixo.isEmpty() ? chave : prefixo + "." + chave;
@@ -109,7 +112,7 @@ public class PokeAPIAdapter implements Provider {
         }
     }
 
-    private static Habilidade[] buscarHabilidades(JSONObject pokemonJson) throws IOException, InterruptedException {
+    private Habilidade[] buscarHabilidades(JSONObject pokemonJson) throws IOException, InterruptedException {
         if (!pokemonJson.has("abilities")) {
             return new Habilidade[0];
         }
@@ -141,7 +144,7 @@ public class PokeAPIAdapter implements Provider {
         return habilidades.toArray(new Habilidade[0]);
     }
 
-    private static JSONObject buscarJson(String url) throws IOException, InterruptedException {
+    private JSONObject buscarJson(String url) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .GET()
@@ -156,17 +159,12 @@ public class PokeAPIAdapter implements Provider {
         return new JSONObject(response.body());
     }
 
-    private static int extrairId(String url) {
+    private int extrairId(String url) {
         Matcher matcher = URL_PATTERN.matcher(url);
         if (matcher.find()) {
             return Integer.parseInt(matcher.group(1));
         }
         return 0;
-    }
-
-    @Override
-    public void get() {
-        // Implementação conforme interface Provider
     }
 }
 

@@ -1,5 +1,7 @@
 package br.com.pokemon.cartas;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Carta {
 
     private int id;
@@ -63,6 +65,7 @@ public class Carta {
         return sprites;
     }
 
+    @JsonIgnore
     public Carta getCarta() {
         return this;
     }

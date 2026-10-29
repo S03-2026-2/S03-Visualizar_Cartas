@@ -1,5 +1,7 @@
 package br.com.pokemon.cartas;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Tipo {
 
     private int id;
@@ -38,6 +40,7 @@ public class Tipo {
         this.url = url;
     }
 
+    @JsonIgnore
     public Tipo getTipo() {
         return this;
     }

@@ -1,5 +1,7 @@
 package br.com.pokemon.cartas;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Sprite {
 
     private String nome;
@@ -29,6 +31,7 @@ public class Sprite {
         this.url = url;
     }
 
+    @JsonIgnore
     public Sprite getSprite() {
         return this;
     }
