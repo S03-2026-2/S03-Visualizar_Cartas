@@ -1,5 +1,6 @@
 package br.com.pokemon.cartas;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Habilidade {
 
@@ -7,15 +8,41 @@ public class Habilidade {
     private String nome;
     private String geracao;
 
+    public Habilidade() {
+    }
+
     public Habilidade(int id, String nome, String geracao) {
         this.id = id;
         this.nome = nome;
         this.geracao = geracao;
     }
 
-    public Habilidade getHabilidade(int id){
-        Habilidade habilidade = new Habilidade(this.id, this.nome, this.geracao);
-        return habilidade;
+    public int getId() {
+        return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getGeracao() {
+        return geracao;
+    }
+
+    public void setGeracao(String geracao) {
+        this.geracao = geracao;
+    }
+
+    @JsonIgnore
+    public Habilidade getHabilidade() {
+        return this;
+    }
 }

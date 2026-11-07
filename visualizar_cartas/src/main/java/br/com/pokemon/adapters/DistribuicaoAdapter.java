@@ -2,24 +2,20 @@ package br.com.pokemon.adapters;
 
 import br.com.pokemon.cartas.Carta;
 import br.com.pokemon.interfaces.Provider;
+import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class DistribuicaoAdapter implements Provider {
+@Component
+public class DistribuicaoAdapter implements Provider<List<Carta>, Integer> {
 
     @Override
-    public void get() {
-        // Lógica para buscar dados do serviço de distribuição de cartas
-    }
-
-    public List<Carta> listarCartas(List<Carta> cartasUsuario) {
-        // Lógica para listar as cartas do usuário a partir do serviço de distribuição
-        return cartasUsuario;
-    }
-
-    public Carta detalharCartas(int id) {
-        // Lógica para detalhar uma carta específica
-        return null;
+    public List<Carta> get(Integer usuarioId) throws IOException, InterruptedException {
+        // TODO: consultar o endpoint do sistema de distribuição de cartas quando
+        // disponível para obter as cartas do usuário informado.
+        // Retorna uma lista vazia enquanto o contrato do serviço externo não existe.
+        return new ArrayList<>();
     }
 }
-
