@@ -50,6 +50,7 @@ Se a porta `8080` já estiver ocupada, publique o frontend em outra porta:
 
 ```bash
 PORTA_FRONTEND=18080 docker compose up --build
+# aplicação em http://localhost:18080
 ```
 
 ## Execução manual
