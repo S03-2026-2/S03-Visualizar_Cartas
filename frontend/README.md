@@ -19,8 +19,16 @@ npm run lint      # análise estática (Oxlint)
 
 ## Proxy do backend
 
-O `vite.config.ts` encaminha `/autenticacao` e `/cartas` para `http://localhost:8080`. Para usar
-outra porta:
+### Container com nginx
+
+No Docker Compose, o container do frontend usa nginx e encaminha as requisições de `/api` para o
+serviço `backend`. O fallback de SPA (`try_files`) cobre as rotas `/login`, `/cartas` e
+`/cartas/:id`, que são devolvidas pelo `index.html` da aplicação.
+
+### Desenvolvimento local
+
+O `vite.config.ts` encaminha `/api` para `http://localhost:8080`. Para usar outro endereço do
+backend, defina `VITE_API_TARGET`:
 
 ```bash
 VITE_API_TARGET=http://localhost:18080 npm run dev
@@ -40,11 +48,11 @@ src/
 
 ## Comportamento
 
-- **Login**: `POST /autenticacao/login` com `application/x-www-form-urlencoded`. A resposta (`User`)
+- **Login**: `POST /api/autenticacao/login` com `application/x-www-form-urlencoded`. A resposta (`User`)
   fica em `localStorage`; não há token nem sessão no servidor.
-- **Coleção**: `GET /cartas?usuarioId=...&ordenar=true`. Busca, filtro por tipo e ordenação ficam
+- **Coleção**: `GET /api/cartas?usuarioId=...&ordenar=true`. Busca, filtro por tipo e ordenação ficam
   na URL (`?busca=...&tipos=...&ordem=...`) e são aplicados no cliente.
-- **Detalhe**: `GET /cartas/{id}`. Os sprites navegam dentro do próprio card, em carrossel circular
+- **Detalhe**: `GET /api/cartas/{id}`. Os sprites navegam dentro do próprio card, em carrossel circular
   (botões e setas do teclado).
 - **Estados**: carregamento, erro com "Tentar novamente", coleção vazia e filtro sem resultado são
   estados distintos.

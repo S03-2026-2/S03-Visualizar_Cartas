@@ -1,6 +1,9 @@
 # documentos locais de design/plano (não versionar)
 docs/superpowers/
 
+# workspace temporário de execução (scratch)
+.superpowers/
+
 # dependências e builds
 node_modules/
 dist/

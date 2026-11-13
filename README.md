@@ -17,9 +17,9 @@ O backend expõe três endpoints:
 
 | Método | Rota | Descrição |
 | --- | --- | --- |
-| `POST` | `/autenticacao/login` | Recebe `email` e `senha` (form-urlencoded) e devolve o usuário autenticado (`401` quando inválido) |
-| `GET` | `/cartas?usuarioId={id}&ordenar=true` | Devolve a distribuição de cartas do usuário |
-| `GET` | `/cartas/{id}` | Devolve o detalhe de uma carta |
+| `POST` | `/api/autenticacao/login` | Recebe `email` e `senha` (form-urlencoded) e devolve o usuário autenticado (`401` quando inválido) |
+| `GET` | `/api/cartas?usuarioId={id}&ordenar=true` | Devolve a distribuição de cartas do usuário |
+| `GET` | `/api/cartas/{id}` | Devolve o detalhe de uma carta |
 
 A seleção entre a implementação simulada e a integração real é feita por Spring Profiles:
 `mock` (padrão) usa os adapters JSON locais; `real` usa o `PokeAPIAdapter` oficial existente no
@@ -34,7 +34,25 @@ projeto, preparado para as integrações futuras.
 
 Nenhum dado de login é exibido na interface.
 
-## Como executar
+## Como executar com Docker
+
+A porta `8080` do host precisa estar livre. O Docker Compose sobe o backend sem publicar uma porta
+no host e encaminha as chamadas da API pelo container do frontend.
+
+```bash
+docker compose up --build      # sobe backend + frontend
+# aplicação em http://localhost:8080
+docker compose logs -f backend
+docker compose down
+```
+
+Se a porta `8080` já estiver ocupada, publique o frontend em outra porta:
+
+```bash
+PORTA_FRONTEND=18080 docker compose up --build
+```
+
+## Execução manual
 
 ### 1. Backend
 
@@ -74,8 +92,8 @@ npm install
 npm run dev
 ```
 
-A SPA sobe em `http://localhost:5173` e o Vite faz proxy de `/autenticacao` e `/cartas` para
-`http://localhost:8080`. Para apontar para outro endereço do backend:
+A SPA sobe em `http://localhost:5173` e o Vite faz proxy de `/api` para `http://localhost:8080`.
+Para apontar para outro endereço do backend:
 
 ```bash
 VITE_API_TARGET=http://localhost:18080 npm run dev
