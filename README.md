@@ -21,9 +21,9 @@ O backend expõe três endpoints:
 | `GET` | `/api/cartas?usuarioId={id}&ordenar=true` | Devolve a distribuição de cartas do usuário |
 | `GET` | `/api/cartas/{id}` | Devolve o detalhe de uma carta |
 
-A seleção entre a implementação simulada e a integração real é feita por Spring Profiles:
-`mock` (padrão) usa os adapters JSON locais; `real` usa o `PokeAPIAdapter` oficial existente no
-projeto, preparado para as integrações futuras.
+O profile `mock` (padrão) usa os adapters JSON locais e é o caminho suportado. A integração real
+ainda não está disponível: os contratos dos serviços de jogadores e de distribuição de cartas não
+existem, e o profile `real` ainda não fornece todos os beans necessários para iniciar o backend.
 
 ## Dados de demonstração
 
@@ -75,17 +75,13 @@ docker run --rm -v "$PWD":/app -w /app -v "$HOME/.m2":/root/.m2 \
   maven:3.9-eclipse-temurin-25 mvn -q -DskipTests package
 ```
 
-Para usar a PokéAPI oficial (necessita acesso a `pokeapi.co`), suba com o profile `real`:
-
-```bash
-docker run --rm -e SPRING_PROFILES_ACTIVE=real -p 8080:8080 \
-  -v "$PWD":/app -w /app -v "$HOME/.m2":/root/.m2 \
-  maven:3.9-eclipse-temurin-25 mvn -q spring-boot:run
-```
+A integração real ainda não está disponível: os contratos dos serviços de jogadores e de distribuição
+não existem. Portanto, não existe um comando suportado para iniciar o backend com o profile `real`;
+use o profile `mock` acima.
 
 ### 2. Frontend
 
-Requer Node.js 22+:
+Requer Node.js 20.19+ ou 22.12+:
 
 ```bash
 cd frontend

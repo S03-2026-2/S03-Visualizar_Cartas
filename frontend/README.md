@@ -4,7 +4,7 @@ SPA em React + TypeScript + Vite que consome o backend Spring Boot do projeto.
 
 ## Pré-requisitos
 
-- Node.js 22+ (testado com Node 24)
+- Node.js 20.19+ ou 22.12+ (testado com Node 24)
 - Backend rodando (por padrão em `http://localhost:8080`)
 
 ## Comandos
@@ -61,7 +61,9 @@ src/
 
 - As credenciais de demonstração não aparecem na interface; ficam em
   `../visualizar_cartas/src/main/resources/mocks/usuarios.json`.
-- Sprites e cries vêm do espelho da PokéAPI no GitHub e dependem de acesso à internet.
+- Os dados das cartas — e, portanto, a coleção — vêm do espelho da PokéAPI no GitHub. Sem acesso a
+  `raw.githubusercontent.com`, o login funciona, mas a coleção não carrega. Sprites e cries também
+  dependem desse acesso externo.
 - O cry usa Ogg: em navegadores sem suporte (Safari) o botão informa que o áudio não está
   disponível.
 - Sem token ou expiração de sessão — o logout apenas remove o usuário do `localStorage`.
