@@ -10,8 +10,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/autenticacao': apiTarget,
-      '/cartas': apiTarget,
+      '/api': apiTarget,
     },
   },
 })

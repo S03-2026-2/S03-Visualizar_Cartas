@@ -77,7 +77,7 @@ export async function login(
 ): Promise<Usuario> {
   const body = new URLSearchParams({ email, senha })
 
-  return request<Usuario>('/autenticacao/login', {
+  return request<Usuario>('/api/autenticacao/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -96,12 +96,12 @@ export async function listarCartas(
     ordenar: 'true',
   })
 
-  return request<Carta[]>(`/cartas?${params.toString()}`, { signal })
+  return request<Carta[]>(`/api/cartas?${params.toString()}`, { signal })
 }
 
 export async function detalharCarta(
   id: number,
   signal?: AbortSignal,
 ): Promise<Carta> {
-  return request<Carta>(`/cartas/${encodeURIComponent(String(id))}`, { signal })
+  return request<Carta>(`/api/cartas/${id}`, { signal })
 }

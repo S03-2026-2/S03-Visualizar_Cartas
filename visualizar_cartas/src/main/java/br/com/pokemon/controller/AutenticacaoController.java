@@ -16,7 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
  * endpoint desse sistema será implementada quando o contrato estiver disponível.
  */
 @RestController
-@RequestMapping("/autenticacao")
+@RequestMapping("/api/autenticacao")
 public class AutenticacaoController {
 
     private final AutenticacaoProvider autenticacaoProvider;
