@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import type { Carta } from '../api/types'
+import { useHolo } from '../hooks/useHolo'
 import {
   artworkOf,
   formatAltura,
@@ -8,6 +9,7 @@ import {
   typeLabel,
 } from '../utils'
 import styles from '../styles/cards.module.css'
+import holo from '../styles/holo.module.css'
 
 type CardTileProps = {
   carta: Carta
@@ -19,6 +21,7 @@ export default function CardTile({ carta, index }: CardTileProps) {
   const artwork = artworkOf(carta)
   const tipos = carta.tipos ?? []
   const tipoPrimario = tipos[0]?.nome
+  const onPointerMove = useHolo<HTMLAnchorElement>()
 
   const experiencia = Number.isFinite(carta.experience)
     ? `EXP ${carta.experience}`
@@ -28,13 +31,12 @@ export default function CardTile({ carta, index }: CardTileProps) {
 
   return (
     <Link
-      className={styles.card}
+      className={`${styles.card} ${holo.holo}`}
       data-tipo={tipoPrimario}
       to={`/cartas/${carta.id}`}
       aria-label={`Ver detalhes de ${nome}`}
+      onPointerMove={onPointerMove}
     >
-      <span className={styles.holo} aria-hidden="true" />
-
       <div className={styles.cardTop}>
         <span className={styles.cardNumber}>
           #{String(carta.id).padStart(3, '0')}

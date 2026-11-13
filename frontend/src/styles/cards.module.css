@@ -428,16 +428,6 @@ button.chip:hover {
     var(--shadow-card);
 }
 
-/* Reservado para o efeito holográfico da próxima etapa. */
-.holo {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  border-radius: inherit;
-  opacity: 0;
-  pointer-events: none;
-}
-
 .cardTop,
 .cardArt,
 .cardBody {
@@ -628,7 +618,15 @@ button.chip:hover {
     opacity: 0.35;
   }
 
+  .card:hover {
+    transform: none;
+  }
+
   .card:hover .cardArt img {
+    transform: none;
+  }
+
+  .stateAction:hover {
     transform: none;
   }
 }
