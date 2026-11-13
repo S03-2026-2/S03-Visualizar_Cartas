@@ -11,6 +11,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.Executors;
 
 /**
  * Distribuição de demonstração: lê os IDs de cada usuário em
@@ -38,18 +42,54 @@ public class MockDistribuicaoAdapter implements Provider<List<Carta>, Integer> {
                 loader.read("mocks/distribuicao.json", DISTRIBUICAO);
 
         List<Integer> ids = distribuicao.get(String.valueOf(usuarioId));
-        List<Carta> cartas = new ArrayList<>();
         if (ids == null) {
-            return cartas;
+            return new ArrayList<>();
         }
 
-        for (Integer id : ids) {
-            Carta carta = cartasProvider.get(String.valueOf(id));
-            if (carta != null) {
-                cartas.add(carta);
+        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+            List<CompletableFuture<Carta>> futures = ids.stream()
+                    .map(id -> CompletableFuture.supplyAsync(() -> buscarCarta(id), executor))
+                    .toList();
+
+            try {
+                CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new)).join();
+            } catch (CompletionException e) {
+                Throwable original = desembrulhar(e.getCause());
+                if (original instanceof IOException ioException) {
+                    throw ioException;
+                }
+                if (original instanceof InterruptedException interruptedException) {
+                    throw interruptedException;
+                }
+                if (original instanceof RuntimeException runtimeException) {
+                    throw runtimeException;
+                }
+                if (original instanceof Error error) {
+                    throw error;
+                }
+                throw new IOException("Falha inesperada ao buscar carta", original);
             }
-        }
 
-        return cartas;
+            return futures.stream()
+                    .map(CompletableFuture::join)
+                    .filter(Objects::nonNull)
+                    .toList();
+        }
+    }
+
+    private Carta buscarCarta(Integer id) {
+        try {
+            return cartasProvider.get(String.valueOf(id));
+        } catch (IOException | InterruptedException e) {
+            throw new CompletionException(e);
+        }
+    }
+
+    private Throwable desembrulhar(Throwable cause) {
+        Throwable original = cause;
+        while (original instanceof CompletionException && original.getCause() != null) {
+            original = original.getCause();
+        }
+        return original;
     }
 }
