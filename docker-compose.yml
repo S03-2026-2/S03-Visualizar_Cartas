@@ -1,0 +1,23 @@
+services:
+  backend:
+    build:
+      context: ./visualizar_cartas
+    environment:
+      SPRING_PROFILES_ACTIVE: mock
+    expose:
+      - "8080"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS -o /dev/null 'http://localhost:8080/api/cartas?usuarioId=99'"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 30s
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "${PORTA_FRONTEND:-8080}:80"
+    depends_on:
+      backend:
+        condition: service_healthy

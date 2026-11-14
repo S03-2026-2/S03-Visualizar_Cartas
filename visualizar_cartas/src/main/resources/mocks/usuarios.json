@@ -1,0 +1,5 @@
+[
+  { "id": 1, "nome": "Ash",   "email": "ash@pokemon.com",   "senha": "pikachu", "ranking": 1 },
+  { "id": 2, "nome": "Misty", "email": "misty@pokemon.com", "senha": "starmie", "ranking": 2 },
+  { "id": 3, "nome": "Brock", "email": "brock@pokemon.com", "senha": "onix",    "ranking": 3 }
+]

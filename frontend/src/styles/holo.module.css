@@ -1,0 +1,42 @@
+/*
+ * Brilho holográfico compartilhado por cards e pela moldura do detalhe.
+ * O elemento que recebe esta classe deve ser `position: relative` e conter
+ * `overflow: hidden`, para que o `::after` respeite os cantos arredondados.
+ */
+.holo {
+  --mx: 50%;
+  --my: 35%;
+}
+
+.holo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 220deg at var(--mx) var(--my),
+    rgba(255, 255, 255, 0.55),
+    rgba(255, 224, 150, 0.5),
+    rgba(124, 214, 255, 0.42),
+    rgba(255, 137, 220, 0.42),
+    rgba(126, 255, 195, 0.42),
+    rgba(255, 255, 255, 0.55)
+  );
+  mix-blend-mode: color-dodge;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+
+.holo:hover::after,
+.holo:focus-within::after {
+  opacity: 0.35;
+}
+
+/* O efeito depende de mouse; desligado em toque e em movimento reduzido. */
+@media (prefers-reduced-motion: reduce), (pointer: coarse) {
+  .holo::after {
+    display: none;
+  }
+}

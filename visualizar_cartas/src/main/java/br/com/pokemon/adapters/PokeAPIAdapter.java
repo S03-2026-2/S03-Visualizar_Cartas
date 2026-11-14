@@ -7,6 +7,7 @@ import br.com.pokemon.cartas.Tipo;
 import br.com.pokemon.interfaces.Provider;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Profile("real")
 @Component
 public class PokeAPIAdapter implements Provider<Carta, String> {
 

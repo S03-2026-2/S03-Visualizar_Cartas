@@ -1,0 +1,151 @@
+@layer reset, base, utilities;
+
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  * {
+    margin: 0;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    min-height: 100vh;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+    color: inherit;
+  }
+
+  button {
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  ul,
+  ol {
+    list-style: none;
+    padding: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  p {
+    overflow-wrap: break-word;
+  }
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    min-height: 100vh;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    background-image:
+      radial-gradient(120% 90% at 50% -10%, rgba(124, 156, 255, 0.12), transparent 55%),
+      radial-gradient(70% 50% at 100% 100%, rgba(232, 196, 106, 0.06), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: none;
+    box-shadow: var(--focus);
+    border-radius: var(--radius-sm);
+  }
+
+  ::selection {
+    background: var(--gold-soft);
+    color: var(--text);
+  }
+}
+
+@layer utilities {
+  .skip-link {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 100;
+    padding: 0.6rem 1rem;
+    border-radius: var(--radius-sm);
+    background: var(--surface-3);
+    color: var(--text);
+    font-weight: 600;
+    transform: translateY(-200%);
+    transition: transform 140ms ease;
+  }
+
+  .skip-link:focus-visible {
+    transform: translateY(0);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
