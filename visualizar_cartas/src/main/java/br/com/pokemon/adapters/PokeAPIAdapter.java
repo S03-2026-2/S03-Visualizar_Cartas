@@ -14,8 +14,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-@Profile("real")
-@Component
 public class PokeAPIAdapter implements Provider<Carta, String> {
 
     private static final HttpClient client = HttpClient.newHttpClient();
