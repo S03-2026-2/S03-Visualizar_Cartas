@@ -1,32 +1,38 @@
 package br.com.pokemon.cartas;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Sprite {
 
-    private final String nome;
-    private final String url;
+    private String nome;
+    private String url;
+
+    public Sprite() {
+    }
 
     public Sprite(String nome, String url) {
-        if (nome == null || nome.isBlank()) {
-            throw new IllegalArgumentException(
-                "O nome do sprite é obrigatório."
-            );
-        }
-
-        if (url == null || url.isBlank()) {
-            throw new IllegalArgumentException(
-                "A URL do sprite é obrigatória."
-            );
-        }
-
-        this.nome = nome.trim();
-        this.url = url.trim();
+        this.nome = nome;
+        this.url = url;
     }
 
     public String getNome() {
         return nome;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public String getUrl() {
         return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    @JsonIgnore
+    public Sprite getSprite() {
+        return this;
     }
 }

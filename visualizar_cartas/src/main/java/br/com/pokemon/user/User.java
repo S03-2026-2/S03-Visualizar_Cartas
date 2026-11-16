@@ -10,9 +10,34 @@ public class User {
     private int id;
     private String nome;
     private int ranking;
-    private List<Carta> Cartas = new ArrayList<Carta>();
+    private List<Carta> cartas = new ArrayList<>();
+
+    public User(int id, String nome, int ranking) {
+        this.id = id;
+        this.nome = nome;
+        this.ranking = ranking;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public int getRanking() {
+        return ranking;
+    }
 
     public List<Carta> getCartas() {
-        return Cartas;
+        return cartas;
+    }
+
+    public Carta getCarta(int index) {
+        if (cartas != null && !cartas.isEmpty() && index >= 0 && index < cartas.size()) {
+            return cartas.get(index);
+        }
+        return null;
     }
 }

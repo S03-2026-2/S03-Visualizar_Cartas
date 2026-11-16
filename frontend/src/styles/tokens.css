@@ -1,0 +1,55 @@
+:root {
+  /* Superfícies */
+  --bg: #070b14;
+  --surface-1: #0d1424;
+  --surface-2: #131d31;
+  --surface-3: #1b2740;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.16);
+
+  /* Texto */
+  --text: #eef2ff;
+  --text-muted: #9aa8c7;
+  --text-dim: #6b7a9c;
+
+  /* Acentos */
+  --gold: #e8c46a;
+  --gold-soft: rgba(232, 196, 106, 0.16);
+  --accent: #7c9cff;
+
+  /* Semântica */
+  --danger: #ff6b7a;
+  --success: #58d6a3;
+
+  /* Tipografia */
+  --font-display: 'Bricolage Grotesque Variable', system-ui, sans-serif;
+  --font-body: 'Inter Variable', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Forma e profundidade */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --shadow-card: 0 18px 50px rgba(0, 0, 0, 0.55);
+  --focus: 0 0 0 3px rgba(124, 156, 255, 0.55);
+
+  /* Cores canônicas por tipo */
+  --type-fire: #ee8130;
+  --type-water: #6390f0;
+  --type-grass: #7ac74c;
+  --type-electric: #f7d02c;
+  --type-psychic: #f95587;
+  --type-ice: #96d9d6;
+  --type-dragon: #6f35fc;
+  --type-dark: #705746;
+  --type-fairy: #d685ad;
+  --type-normal: #a8a77a;
+  --type-fighting: #c22e28;
+  --type-flying: #a98ff3;
+  --type-poison: #a33ea1;
+  --type-ground: #e2bf65;
+  --type-rock: #b6a136;
+  --type-bug: #a6b91a;
+  --type-ghost: #735797;
+  --type-steel: #b7b7ce;
+}
