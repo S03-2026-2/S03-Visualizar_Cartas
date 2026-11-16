@@ -1,10 +1,15 @@
 package br.com.pokemon.cartas;
 
-public class Carta{
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-    private int id, experience;
-    private String nome, urlCry;
-    private float altura, peso;
+public class Carta {
+
+    private int id;
+    private int experience;
+    private String nome;
+    private String urlCry;
+    private float altura;
+    private float peso;
     private Habilidade[] habilidades;
     private Tipo[] tipos;
     private Sprite[] sprites;
@@ -21,11 +26,47 @@ public class Carta{
         this.sprites = sprites;
     }
 
+    public Carta() {
+    }
+
     public int getId() {
         return id;
     }
 
+    public int getExperience() {
+        return experience;
+    }
+
     public String getNome() {
         return nome;
+    }
+
+    public String getUrlCry() {
+        return urlCry;
+    }
+
+    public float getAltura() {
+        return altura;
+    }
+
+    public float getPeso() {
+        return peso;
+    }
+
+    public Habilidade[] getHabilidades() {
+        return habilidades;
+    }
+
+    public Tipo[] getTipos() {
+        return tipos;
+    }
+
+    public Sprite[] getSprites() {
+        return sprites;
+    }
+
+    @JsonIgnore
+    public Carta getCarta() {
+        return this;
     }
 }
