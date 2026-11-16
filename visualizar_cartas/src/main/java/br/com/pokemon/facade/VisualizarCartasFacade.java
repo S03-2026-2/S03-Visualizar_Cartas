@@ -1,7 +1,6 @@
 package br.com.pokemon.facade;
 
 import br.com.pokemon.autenticacao.Autenticacao;
-import br.com.pokemon.autenticacao.FalhaAutenticacaoException;
 import br.com.pokemon.cartas.Carta;
 import br.com.pokemon.interfaces.Provider;
 import br.com.pokemon.user.User;
@@ -13,6 +12,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Fachada dos casos de uso de visualização de cartas.
+ */
 @Service
 public class VisualizarCartasFacade {
 
@@ -30,19 +32,24 @@ public class VisualizarCartasFacade {
                 pokeApiProvider, "Insira o provider da PokeAPI");
     }
 
-
-        @return
-        @throws 
-     
+    /**
+     * Inicia a sessão do usuário.
+     *
+     * @param email e-mail informado
+     * @param senha senha informada
+     * @return usuário autenticado
+     */
     public User iniciarSessao(String email, String senha) {
         return autenticacao.iniciarSessao(email, senha);
     }
 
-
-     @param usuarioId
-     @param ordenar
-     @return nova
-
+    /**
+     * Lista as cartas distribuídas para o usuário.
+     *
+     * @param usuarioId identificador do usuário
+     * @param ordenar   indica se as cartas devem ser ordenadas pelo nome
+     * @return cartas do usuário
+     */
     public List<Carta> listarCartas(int usuarioId, boolean ordenar)
             throws IOException, InterruptedException {
         List<Carta> distribuidas = distribuicaoProvider.get(usuarioId);
@@ -55,11 +62,12 @@ public class VisualizarCartasFacade {
         return cartas;
     }
 
-
-      Caso de uso "Detalhar carta".
-     
-      @param
-
+    /**
+     * Detalha uma carta consultando a PokéAPI.
+     *
+     * @param id identificador da carta
+     * @return carta detalhada
+     */
     public Carta detalharCarta(int id) throws IOException, InterruptedException {
         return pokeApiProvider.get(String.valueOf(id));
     }

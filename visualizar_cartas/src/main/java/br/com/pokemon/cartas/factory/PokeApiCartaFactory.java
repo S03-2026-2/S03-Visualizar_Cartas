@@ -28,10 +28,6 @@ public class PokeApiCartaFactory extends CartaFactory {
         }
 
         JSONArray typesArray = pokemonJson.getJSONArray("types");
-        if (typesArray.length() < 1 || typesArray.length() > 2) {
-            throw new IllegalArgumentException("A carta deve ter um ou dois tipos.");
-        }
-
         List<Tipo> tipos = new ArrayList<>();
         for (int i = 0; i < typesArray.length(); i++) {
             JSONObject typeEntry = typesArray.getJSONObject(i);
