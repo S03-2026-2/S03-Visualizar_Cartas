@@ -1,46 +1,37 @@
 package br.com.pokemon.adapters;
 
-import br.com.pokemon.cartas.Carta;
 import br.com.pokemon.cartas.factory.CartaFactory;
 import br.com.pokemon.cartas.factory.PokeApiCartaFactory;
-import br.com.pokemon.interfaces.Provider;
-import org.json.JSONObject;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.net.URI;
 import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 
+/**
+ * PokéAPI oficial. O algoritmo de busca fica em {@link AbstractPokeApiAdapter};
+ * aqui ficam apenas a URL e a fábrica, que faz requisições adicionais para os
+ * tipos e as habilidades.
+ */
 @Profile("real")
 @Component
-public class PokeAPIAdapter implements Provider<Carta, String> {
+public class PokeAPIAdapter extends AbstractPokeApiAdapter {
 
-    private static final HttpClient client = HttpClient.newHttpClient();
+    private static final String URL_POKEMON = "https://pokeapi.co/api/v2/pokemon/";
 
     private final CartaFactory cartaFactory = new PokeApiCartaFactory(this::buscarJson);
 
-    @Override
-    public Carta get(String nome) throws IOException, InterruptedException {
-        JSONObject json = buscarJson("https://pokeapi.co/api/v2/pokemon/" + nome);
-        return cartaFactory.criar(json);
+    public PokeAPIAdapter() {
+        super(HttpClient.newHttpClient(), null);
     }
 
-    private JSONObject buscarJson(String url) throws IOException, InterruptedException {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .GET()
-                .build();
+    @Override
+    protected String urlDoPokemon(String nome) {
+        return URL_POKEMON + nome;
+    }
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        if (response.statusCode() != 200) {
-            throw new IOException("Erro ao buscar " + url + ": HTTP " + response.statusCode());
-        }
-
-        return new JSONObject(response.body());
+    @Override
+    protected CartaFactory fabrica() {
+        return cartaFactory;
     }
 }
 
