@@ -21,7 +21,7 @@ import java.util.List;
  * contrato estiver disponível.
  */
 @RestController
-@RequestMapping("/cartas")
+@RequestMapping("/api/cartas")
 public class CartasController {
 
     private final Provider<List<Carta>, Integer> distribuicaoProvider;

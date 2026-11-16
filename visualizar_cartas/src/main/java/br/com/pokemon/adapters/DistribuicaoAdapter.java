@@ -2,12 +2,14 @@ package br.com.pokemon.adapters;
 
 import br.com.pokemon.cartas.Carta;
 import br.com.pokemon.interfaces.Provider;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Profile("real")
 @Component
 public class DistribuicaoAdapter implements Provider<List<Carta>, Integer> {
 

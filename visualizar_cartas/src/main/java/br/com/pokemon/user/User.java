@@ -12,6 +12,12 @@ public class User {
     private int ranking;
     private List<Carta> cartas = new ArrayList<>();
 
+    public User(int id, String nome, int ranking) {
+        this.id = id;
+        this.nome = nome;
+        this.ranking = ranking;
+    }
+
     public int getId() {
         return id;
     }
