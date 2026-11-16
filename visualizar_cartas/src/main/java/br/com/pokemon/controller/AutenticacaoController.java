@@ -1,6 +1,7 @@
 package br.com.pokemon.controller;
 
-import br.com.pokemon.interfaces.AutenticacaoProvider;
+import br.com.pokemon.autenticacao.Autenticacao;
+import br.com.pokemon.autenticacao.FalhaAutenticacaoException;
 import br.com.pokemon.user.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,17 +13,17 @@ import org.springframework.web.server.ResponseStatusException;
 /**
  * Controller responsável pelo caso de uso "Autenticar".
  *
- * A autenticação é realizada pelo sistema externo de Jogadores. A chamada ao
- * endpoint desse sistema será implementada quando o contrato estiver disponível.
+ * A autenticação é realizada pelo sistema externo de Jogadores, por meio da
+ * classe {@link Autenticacao}.
  */
 @RestController
 @RequestMapping("/api/autenticacao")
 public class AutenticacaoController {
 
-    private final AutenticacaoProvider autenticacaoProvider;
+    private final Autenticacao autenticacao;
 
-    public AutenticacaoController(AutenticacaoProvider autenticacaoProvider) {
-        this.autenticacaoProvider = autenticacaoProvider;
+    public AutenticacaoController(Autenticacao autenticacao) {
+        this.autenticacao = autenticacao;
     }
 
     /**
@@ -34,10 +35,17 @@ public class AutenticacaoController {
      */
     @PostMapping("/login")
     public User autenticar(@RequestParam String email, @RequestParam String senha) {
-        return autenticacaoProvider.autenticar(email, senha)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.UNAUTHORIZED,
-                        "Credenciais inválidas"
-                ));
+        try {
+            return autenticacao.iniciarSessao(email, senha);
+        } catch (FalhaAutenticacaoException erro) {
+            throw new ResponseStatusException(status(erro.getMotivo()), erro.getMessage(), erro);
+        }
+    }
+
+    private static HttpStatus status(FalhaAutenticacaoException.Motivo motivo) {
+        return switch (motivo) {
+            case CREDENCIAIS_INVALIDAS -> HttpStatus.UNAUTHORIZED;
+            case RESPOSTA_INVALIDA, SERVICO_INDISPONIVEL -> HttpStatus.BAD_GATEWAY;
+        };
     }
 }

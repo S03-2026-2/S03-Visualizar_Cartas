@@ -1,20 +1,26 @@
 package br.com.pokemon.autenticacao;
 
-import br.com.pokemon.interfaces.IAutenticacao;
+import br.com.pokemon.interfaces.AutenticacaoProvider;
+import br.com.pokemon.user.User;
+import org.springframework.stereotype.Service;
+
 import java.util.Objects;
+import java.util.Optional;
 
 import static br.com.pokemon.autenticacao.FalhaAutenticacaoException.Motivo.CREDENCIAIS_INVALIDAS;
 import static br.com.pokemon.autenticacao.FalhaAutenticacaoException.Motivo.RESPOSTA_INVALIDA;
 
 /**
  * Coordena o caso de uso de autenticação, sem armazenar credenciais ou sessões.
- * A comunicação externa pertence à implementação de IAutenticacao.
+ * A verificação das credenciais pertence ao sistema de Jogadores, acessado pela
+ * implementação de {@link AutenticacaoProvider} do profile ativo.
  */
-public final class Autenticacao {
+@Service
+public class Autenticacao {
 
-    private final IAutenticacao servicoJogadores;
+    private final AutenticacaoProvider servicoJogadores;
 
-    public Autenticacao(IAutenticacao servicoJogadores) {
+    public Autenticacao(AutenticacaoProvider servicoJogadores) {
         this.servicoJogadores = Objects.requireNonNull(
                 servicoJogadores, "O serviço de autenticação é obrigatório.");
     }
@@ -22,7 +28,7 @@ public final class Autenticacao {
     /**
      * Mantém a assinatura booleana prevista no diagrama do visualizador.
      * Falhas de comunicação ou resposta inválida são propagadas, não viram false.
-     * Use iniciarSessao quando o chamador precisar também dos dados da sessão.
+     * Use iniciarSessao quando o chamador precisar também dos dados do usuário.
      */
     public boolean autenticar(String email, String senha) {
         try {
@@ -37,20 +43,23 @@ public final class Autenticacao {
     }
 
     /**
-     * Executa uma única autenticação e devolve a sessão para o contexto do usuário.
+     * Executa uma única autenticação e devolve o usuário autenticado.
      * Não chame autenticar antes deste método: isso duplicaria a consulta.
+     *
+     * @throws FalhaAutenticacaoException com o motivo da falha
      */
-    public Sessao iniciarSessao(String email, String senha) {
+    public User iniciarSessao(String email, String senha) {
         if (email == null || email.isBlank() || senha == null || senha.isEmpty()) {
             throw new FalhaAutenticacaoException(CREDENCIAIS_INVALIDAS);
         }
 
         // Preserva a senha exatamente como recebida, inclusive espaços.
-        Sessao sessao = servicoJogadores.autenticar(email.trim(), senha);
-        if (sessao == null) {
+        Optional<User> usuario = servicoJogadores.autenticar(email.trim(), senha);
+        if (usuario == null) {
             throw new FalhaAutenticacaoException(RESPOSTA_INVALIDA);
         }
 
-        return sessao;
+        return usuario.orElseThrow(
+                () -> new FalhaAutenticacaoException(CREDENCIAIS_INVALIDAS));
     }
 }
