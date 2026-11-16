@@ -5,8 +5,6 @@ import br.com.pokemon.cartas.factory.CartaFactory;
 import br.com.pokemon.cartas.factory.PokeApiCartaFactory;
 import br.com.pokemon.interfaces.Provider;
 import org.json.JSONObject;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URI;
