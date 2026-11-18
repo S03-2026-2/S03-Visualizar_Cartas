@@ -1,7 +1,7 @@
 package br.com.pokemon.controller;
 
-import br.com.pokemon.autenticacao.Autenticacao;
 import br.com.pokemon.autenticacao.FalhaAutenticacaoException;
+import br.com.pokemon.facade.VisualizarCartasFacade;
 import br.com.pokemon.user.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,17 +13,17 @@ import org.springframework.web.server.ResponseStatusException;
 /**
  * Controller responsável pelo caso de uso "Autenticar".
  *
- * A autenticação é realizada pelo sistema externo de Jogadores, por meio da
- * classe {@link Autenticacao}.
+ * A autenticação é delegada à {@link VisualizarCartasFacade}, que a realiza
+ * junto ao sistema externo de Jogadores.
  */
 @RestController
 @RequestMapping("/api/autenticacao")
 public class AutenticacaoController {
 
-    private final Autenticacao autenticacao;
+    private final VisualizarCartasFacade facade;
 
-    public AutenticacaoController(Autenticacao autenticacao) {
-        this.autenticacao = autenticacao;
+    public AutenticacaoController(VisualizarCartasFacade facade) {
+        this.facade = facade;
     }
 
     /**
@@ -36,7 +36,7 @@ public class AutenticacaoController {
     @PostMapping("/login")
     public User autenticar(@RequestParam String email, @RequestParam String senha) {
         try {
-            return autenticacao.iniciarSessao(email, senha);
+            return facade.iniciarSessao(email, senha);
         } catch (FalhaAutenticacaoException erro) {
             throw new ResponseStatusException(status(erro.getMotivo()), erro.getMessage(), erro);
         }
