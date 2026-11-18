@@ -1,7 +1,7 @@
 package br.com.pokemon.controller;
 
 import br.com.pokemon.cartas.Carta;
-import br.com.pokemon.interfaces.Provider;
+import br.com.pokemon.facade.VisualizarCartasFacade;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,28 +9,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 /**
  * Controller responsável pelos casos de uso de visualização de cartas.
  *
- * A lista de cartas do usuário é fornecida pelo sistema externo de distribuição
- * de cartas. A consulta ao endpoint desse sistema será implementada quando o
- * contrato estiver disponível.
+ * Apenas traduz HTTP: toda a orquestração é delegada à
+ * {@link VisualizarCartasFacade}.
  */
 @RestController
 @RequestMapping("/api/cartas")
 public class CartasController {
 
-    private final Provider<List<Carta>, Integer> distribuicaoProvider;
-    private final Provider<Carta, String> pokeApiProvider;
+    private final VisualizarCartasFacade facade;
 
-    public CartasController(Provider<List<Carta>, Integer> distribuicaoProvider,
-                            Provider<Carta, String> pokeApiProvider) {
-        this.distribuicaoProvider = distribuicaoProvider;
-        this.pokeApiProvider = pokeApiProvider;
+    public CartasController(VisualizarCartasFacade facade) {
+        this.facade = facade;
     }
 
     /**
@@ -44,13 +38,7 @@ public class CartasController {
     public List<Carta> listarCartas(@RequestParam int usuarioId,
                                     @RequestParam(defaultValue = "true") boolean ordenar)
             throws IOException, InterruptedException {
-        List<Carta> cartasUsuario = new ArrayList<>(distribuicaoProvider.get(usuarioId));
-
-        if (ordenar) {
-            ordenarCartas(cartasUsuario);
-        }
-
-        return cartasUsuario;
+        return facade.listarCartas(usuarioId, ordenar);
     }
 
     /**
@@ -61,12 +49,6 @@ public class CartasController {
      */
     @GetMapping("/{id}")
     public Carta detalharCartas(@PathVariable int id) throws IOException, InterruptedException {
-        return pokeApiProvider.get(String.valueOf(id));
-    }
-
-    private void ordenarCartas(List<Carta> cartas) {
-        if (cartas != null) {
-            cartas.sort(Comparator.comparing(Carta::getNome));
-        }
+        return facade.detalharCarta(id);
     }
 }
