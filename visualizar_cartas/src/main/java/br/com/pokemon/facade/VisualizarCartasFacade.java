@@ -23,11 +23,11 @@ public class VisualizarCartasFacade {
     public VisualizarCartasFacade(Autenticacao autenticacao,
                                   Provider<List<Carta>, Integer> distribuicaoProvider,
                                   Provider<Carta, String> pokeApiProvider) {
-        this.autenticacao = Objects.requireNonNull(autenticacao, "Autenticacao é obrigatória.");
+        this.autenticacao = Objects.requireNonNull(autenticacao, "Faça a autenticação");
         this.distribuicaoProvider = Objects.requireNonNull(
-                distribuicaoProvider, "O provedor de distribuição é obrigatório.");
+                distribuicaoProvider, "Insira o provider de distribuicao");
         this.pokeApiProvider = Objects.requireNonNull(
-                pokeApiProvider, "O provedor da PokéAPI é obrigatório.");
+                pokeApiProvider, "Insira o provider da PokeAPI");
     }
 
 
