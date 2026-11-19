@@ -3,6 +3,7 @@ package br.com.pokemon.facade;
 import br.com.pokemon.autenticacao.Autenticacao;
 import br.com.pokemon.autenticacao.FalhaAutenticacaoException;
 import br.com.pokemon.cartas.Carta;
+import br.com.pokemon.cartas.Tipo;
 import br.com.pokemon.interfaces.AutenticacaoProvider;
 import br.com.pokemon.interfaces.Provider;
 import br.com.pokemon.user.User;
@@ -31,7 +32,11 @@ class VisualizarCartasFacadeTest {
                     : Optional.empty();
 
     private static Carta carta(int id, String nome) {
-        return new Carta(id, 0, nome, "", 0f, 0f, null, null, null);
+        return Carta.builder()
+                .id(id)
+                .nome(nome)
+                .tipos(new Tipo[]{new Tipo(1, "normal")})
+                .build();
     }
 
     private VisualizarCartasFacade facade(Provider<List<Carta>, Integer> distribuicao,

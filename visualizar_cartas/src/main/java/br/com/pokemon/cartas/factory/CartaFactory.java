@@ -25,17 +25,17 @@ public abstract class CartaFactory {
     private static final Pattern URL_PATTERN = Pattern.compile(".*/(\\d+)/?");
 
     public Carta criar(JSONObject json) throws IOException, InterruptedException {
-        return new Carta(
-                json.getInt("id"),
-                json.optInt("base_experience", 0),
-                json.getString("name"),
-                criarUrlCry(json),
-                (float) json.getDouble("height"),
-                (float) json.getDouble("weight"),
-                criarHabilidades(json),
-                criarTipos(json),
-                criarSprites(json)
-        );
+        return Carta.builder()
+                .id(json.getInt("id"))
+                .experience(json.optInt("base_experience", 0))
+                .nome(json.getString("name"))
+                .urlCry(criarUrlCry(json))
+                .altura((float) json.getDouble("height"))
+                .peso((float) json.getDouble("weight"))
+                .habilidades(criarHabilidades(json))
+                .tipos(criarTipos(json))
+                .sprites(criarSprites(json))
+                .build();
     }
 
     protected abstract Tipo[] criarTipos(JSONObject pokemonJson) throws IOException, InterruptedException;
