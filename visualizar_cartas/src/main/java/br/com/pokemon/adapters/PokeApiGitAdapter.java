@@ -5,9 +5,6 @@ import br.com.pokemon.cartas.factory.CartaFactory;
 import br.com.pokemon.cartas.factory.GitCartaFactory;
 import br.com.pokemon.interfaces.Provider;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URI;
@@ -15,8 +12,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
 /**
@@ -26,8 +21,6 @@ import java.util.regex.Pattern;
  * campos embutidos, sem requisições adicionais. A geração da habilidade fica
  * vazia nesse adapter.</p>
  */
-@Profile("mock")
-@Component
 public class PokeApiGitAdapter implements Provider<Carta, String> {
 
     private static final Duration TIMEOUT = Duration.ofSeconds(10);
@@ -37,10 +30,9 @@ public class PokeApiGitAdapter implements Provider<Carta, String> {
             .connectTimeout(TIMEOUT)
             .build();
     private final CartaFactory cartaFactory = new GitCartaFactory();
-    private final Map<String, Carta> cache = new ConcurrentHashMap<>();
     private final String baseUrl;
 
-    public PokeApiGitAdapter(@Value("${app.pokeapi.git.base-url}") String baseUrl) {
+    public PokeApiGitAdapter(String baseUrl) {
         this.baseUrl = baseUrl.endsWith("/")
                 ? baseUrl.substring(0, baseUrl.length() - 1)
                 : baseUrl;
@@ -52,16 +44,9 @@ public class PokeApiGitAdapter implements Provider<Carta, String> {
             throw new IllegalArgumentException("O id da carta deve ser numérico: " + id);
         }
 
-        Carta emCache = cache.get(id);
-        if (emCache != null) {
-            return emCache;
-        }
-
         JSONObject json = buscarJson(baseUrl + "/pokemon/" + id + "/index.json");
-        Carta carta = cartaFactory.criar(json);
 
-        cache.put(id, carta);
-        return carta;
+        return cartaFactory.criar(json);
     }
 
     private JSONObject buscarJson(String url) throws IOException, InterruptedException {
